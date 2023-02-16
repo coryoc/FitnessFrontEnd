@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { loginUser } from "../APIs/apis.js";
+import { loginUser, registerUser } from "../APIs/apis.js";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -15,19 +15,40 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmitLogin = async (event) => {
     event.preventDefault();
+    try {
     const res = await loginUser(username, password);
-    const token = res['token']
-    console.log(token, 'login component')
-    window.localStorage.setItem('fitness_tracker_JWT', token);
-    window.location.assign("/");
+    console.log(res.token);
+    window.localStorage.setItem('fitness_tracker_JWT', res.token);
+    window.alert(res.message);
+
+    } catch (err) {
+        console.error(err);
+      }
+
+  };
+
+  const handleSubmitRegister = async (event) => {
+    event.preventDefault();
+    try {
+    const res = await registerUser(username, password);
+    console.log(res);
+    window.localStorage.setItem('fitness_tracker_JWT', res.token);
+    window.alert(res.message);
+    } catch (err) {
+        console.error(err);
+      }
+    // const token = res.token;
+    // console.log(token, 'login component');
+    // window.localStorage.setItem('fitness_tracker_JWT', token);
+    // window.location.assign("/");
   };
 
   return (
     <div className="login-form">
       <h2 className="form-title">Login</h2>
-      <form onSubmit={handleSubmit} className="login-box">
+      <form onSubmit={handleSubmitLogin} className="login-box">
         <label>Username:</label>
         <input
           id="username"
@@ -46,6 +67,29 @@ const Login = () => {
 
         <button type="submit" id="login-button">
           Login
+        </button>
+      </form>
+
+      <h2 className="form-title">Register</h2>
+      <form onSubmit={handleSubmitRegister} className="login-box">
+        <label>Username:</label>
+        <input
+          id="username"
+          onChange={handleOnChange}
+          value={username}
+          placeholder="username"
+        />
+
+        <label>Password:</label>
+        <input
+          id="password"
+          onChange={handleOnChange}
+          value={password}
+          placeholder="password"
+        />
+
+        <button type="submit" id="login-button">
+          Register
         </button>
       </form>
     </div>
