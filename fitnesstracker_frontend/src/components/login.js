@@ -39,10 +39,7 @@ const Login = () => {
     } catch (err) {
         console.error(err);
       }
-    // const token = res.token;
-    // console.log(token, 'login component');
-    // window.localStorage.setItem('fitness_tracker_JWT', token);
-    // window.location.assign("/");
+
   };
 
   return (
